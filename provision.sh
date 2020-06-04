@@ -24,11 +24,11 @@ fi
 
 sudo apt-get -y update
 mkdir /home/admin/.ssh
-cat /vagrant/*.pub >> /home/admin/.ssh/authorized_keys
+cat /home/vagrant/id_rsa.pub >> /home/admin/.ssh/authorized_keys
 
 ## SNMP
 
 sudo apt-get install -y snmpd nano
 
-sudo cp /vagrant/snmpd.conf /etc/snmp/snmpd.conf
-
+sudo cp /home/vagrant/snmpd.conf /etc/snmp/snmpd.conf
+sudo systemctl restart snmpd
