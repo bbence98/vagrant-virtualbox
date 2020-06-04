@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
   
   config.vm.define "agent1" do |agent1|
     agent1.vm.box = "envimation/ubuntu-xenial-docker"
-    agent1.vm.network "private_network", ip: "192.168.100.101"
+    agent1.vm.network "private_network", ip: "192.168.10.198"
   end
 
   # Disable automatic box update checking. If you disable this, then

@@ -9,7 +9,6 @@ if [ $(id -u) -eq 0 ]; then
 	egrep "^$username" /etc/passwd >/dev/null
 	if [ $? -eq 0 ]; then
 		echo "$username exists!"
-		exit 1
 	else
 		pass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
 		useradd -m -p "$pass" "$username"
@@ -17,17 +16,20 @@ if [ $(id -u) -eq 0 ]; then
 	fi
 else
 	echo "Only root may add a user to the system."
-	exit 2
 fi
 
 ## SSH
 
-sudo apt-get -y update
-mkdir /home/admin/.ssh
-cat /vagrant/*.pub >> /home/admin/.ssh/authorized_keys
+ssh_location="/home/admin/.ssh"
+
+if [ ! -d $ssh_location ]; then
+    mkdir $ssh_location
+    cat /vagrant/*.pub >> /home/admin/.ssh/authorized_keys
+fi
 
 ## SNMP
 
+sudo apt-get -y update
 sudo apt-get install -y snmpd nano
 
 sudo cp /vagrant/snmpd.conf /etc/snmp/snmpd.conf
