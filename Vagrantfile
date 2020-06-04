@@ -70,5 +70,4 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "snmpd.conf", destination: "~/snmpd.conf"
   config.vm.provision "file", source: "id_rsa.pub", destination: "~/id_rsa.pub"
   config.vm.provision "shell", path: "provision.sh"
-  #config.vm.provision "shell", inline: "sudo systemctl restart snmpd", run: "always"
 end
