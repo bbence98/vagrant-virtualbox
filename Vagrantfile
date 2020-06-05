@@ -13,9 +13,18 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   
-  config.vm.define "agent01" do |agent1|
-    agent1.vm.box = "debian/stretch64"
-    agent1.vm.network "private_network", ip: "192.168.10.198"
+  config.vm.define "agent01" do |agent01|
+    agent01.vm.box = "debian/stretch64"
+    agent01.vm.network "private_network", ip: "192.168.10.198"
+    agent01.vm.provision "file", source: "snmpd.conf", destination: "/home/vagrant/snmpd.conf"
+    agent01.vm.provision "shell", path: "provision.sh"
+  end
+
+  config.vm.define "agent02" do |agent02|
+    agent02.vm.box = "debian/stretch64"
+    agent02.vm.network "private_network", ip: "192.168.10.199"
+    agent02.vm.provision "file", source: "snmpd2.conf", destination: "/home/vagrant/snmpd.conf"
+    agent02.vm.provision "shell", path: "provision.sh"
   end
 
   # Disable automatic box update checking. If you disable this, then
@@ -67,7 +76,5 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "file", source: "snmpd.conf", destination: "~/snmpd.conf"
   config.vm.provision "file", source: "id_rsa.pub", destination: "~/id_rsa.pub"
-  config.vm.provision "shell", path: "provision.sh"
 end
